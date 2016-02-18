@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="UTF-8">
+    <title>SAPUI5 Walkthrough</title>
+    <script
+        id="sap-ui-bootstrap"
+        src='https://openui5.hana.ondemand.com/resources/sap-ui-core.js'
+        data-sap-ui-theme="sap_bluecrystal"
+        data-sap-ui-libs="sap.m"
+        data-sap-ui-compatVersion="edge"
+        data-sap-ui-preload="async">
+    </script>
+    <script>
+OpenUI5 supports multiple view types (XML, HTML, JavaScript). 
+ 
+    
+    sap.ui.getCore().attachInit(function () {
+        //  The name of the control is prefixed by the namespace of its control library “sap.m” and the options are passed to the constructor with a JavaScript object.
+                new sap.m.Text({
+                    // set the “text” property to the value “Hello World”
+                    // All Controls of OpenUI have a fixed set of properties and methods to interact with
+             text: "Hello World"
+        }).placeAt("content");
+
+              new sap.m.Text({
+                 text: "Hello Test"
+            }).placeAt("content");
+
+              new sap.m.Button({
+                 text: "Hello Button",
+                 type: "Accept"
+            }).placeAt("content");
+         });
+
+     new sap.m.Button({
+                 text: "Hello Button",
+                 type: "Reject"
+            }).placeAt("content");
+         });
+    </script>
+</head>
+
+<!-- The class “sapUiBody” adds additional theme dependent styles for displaying OpenUI5 apps. body变成蓝色 -->
+<body class='sapUiBody'>
+    <div id='content'></div>
+</body>
+</html>
