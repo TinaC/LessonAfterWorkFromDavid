@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script src="lib/jquery.js"></script>
+<script src="lib/underscore.js"></script>
+<script src="lib/backbone.js"></script>
+<script>
+	$(document).ready(function(){
+		var Person = new Backbone.Model({name: 'Jeremy'});
+
+		// Validate the model name
+		Person.validate = function(attrs) {
+		  if (!attrs.name) {
+		    return 'I need your name';
+		  }
+		};
+
+		// Change the name
+		Person.set({name: 'Samuel'});
+		console.log(Person.get('name'));
+		// 'Samuel'
+
+		// Remove the name attribute, force validation
+		// Person.unset('name');
+		console.log(Person.unset('name', {validate: true}));
+		// false,unset不成功
+		console.log(Person.get('name'));
+
+		// Person.on("change:name",function(){console.log("name changed"); });
+		// // Person.set({name: 'Andrew'});
+
+		// //不会触发change事件
+		// Person.set({name: 'Jeremy'},{silent: true});
+		// console.log(Person.hasChanged("name"));
+		// // true: change was recorded
+		// console.log(Person.hasChanged(null));
+		// // true: something (anything) has changed
+
+
+
+// 		var Todo = Backbone.Model.extend({
+// 			initialize: function(){
+// 				console.log('a new instance of a model is created');
+//			    this.on('change', function(){
+//			        console.log('- Values for this model have changed.');
+//			    });
+// 单独监听某个属性的改变
+//			   this.on('change:title', function(){
+//			        console.log('Title value for this model has changed.');
+//			    });
+// 			},
+
+// 			defaults: {
+// 				title: '',
+// 				completed: false
+// 			}
+// 		});
+
+
+// 		// We can then create our own concrete instance of a (Todo) model
+// 		// with no values at all:
+// 		var todo1 = new Todo();
+// 		var todo1Attributes = todo1.toJSON();
+// 		console.log("todo1Attributes :" + todo1Attributes);
+// //		console
+
+
+// 		// Following logs: {}
+// 		console.log(JSON.stringify(todo1));
+// 		console.log(todo1.get('completed'));
+
+// 		// or with some arbitrary data:
+// 		var todo2 = new Todo({
+// 		  title: 'Check the attributes of both model instances in the console.',
+// 		  completed: true
+// 		});
+
+// 		// Following logs: {"title":"Check the attributes of both model instances in the console.","completed":true}
+// 		// (When JSON.stringify() is passed an object with a toJSON() method, it stringifies the return value of toJSON() instead of the original object. The examples in the previous section took advantage of this feature when they called JSON.stringify() to log model instances.)
+// 		// 以下两个结果相同
+// 		console.log(JSON.stringify(todo2));
+// 		console.log(JSON.stringify(todo2.toJSON()));
+
+// 		console.log(todo2);
+// //		returns a copy of the attributes as an object (not a JSON string despite its name).
+// 		console.log(todo2.toJSON());
+
+
+// 		var todo3 = new Todo({
+// 		  title: "Set through instantiation."
+// 		});
+
+// 		todo3.set("title", "Title attribute set through Model.set().");
+
+// 		todo3.set({
+// 		  title: "Both attributes set through Model.set().",
+// 		  completed: true
+// 		});
+
+
+	})
+
+</script>
+</body>
+</html>
