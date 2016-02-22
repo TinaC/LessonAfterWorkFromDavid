@@ -1,0 +1,54 @@
+<!-- Install jQuery and underscore -->
+
+<script type="text/javascript" src="../underscore.js"></script>
+<script type="text/javascript" src="../jquery.js"></script>
+
+<!-- Create your template -->
+<script type="foo/bar" id='usageList'>
+<table cellspacing='0' cellpadding='0' border='1' >
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%
+        // repeat items 
+        _.each(items,function(item,key,list){
+          // create variables
+          var f = item.name.split("").shift().toLowerCase();
+      %>
+        <tr>
+          <!-- use variables -->
+          <td><%= key %></td>
+          <td class="<%= f %>">
+            <!-- use %- to inject un-sanitized user input (see 'Demo of XSS hack') -->
+            <h3><%- item.name %></h3>
+            <p><%- item.interests %></p>
+          </td>
+        </tr>
+      <%
+        });
+      %>
+    </tbody>
+  </table>
+</script>
+
+<!-- Create your target -->
+
+<div id="target"></div>
+
+<!-- Write some code to fetch the data and apply template -->
+
+<script type="text/javascript">
+  var items = [
+    {name:"Alexander", interests:"creating large empires"},
+    {name:"Edward", interests:"ha.ckers.org <\nBGSOUND SRC=\"javascript:alert('XSS');\">"},
+    {name:"..."},
+    {name:"Yolando", interests:"working out"},
+    {name:"Zachary", interests:"picking flowers for Angela"}
+  ];
+  var template = $("#usageList").html();
+  $("#target").html(_.template(template,{items:items}));
+</script>
