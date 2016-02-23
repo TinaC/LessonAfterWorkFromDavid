@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script src="../lib/jquery.js"></script>
+<script src="../lib/underscore.js"></script>
+<script src="../lib/backbone.js"></script>
+<script>
+	$(document).ready(function(){
+		Backbone.on('event', function() {console.log('Handled Backbone event');});
+		Backbone.trigger('event'); // logs: Handled Backbone event
+	})
+
+</script>
+</body>
+</html>

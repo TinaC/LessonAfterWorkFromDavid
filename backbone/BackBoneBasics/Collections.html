@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script src="../lib/jquery.js"></script>
+<script src="../lib/underscore.js"></script>
+<script src="../lib/backbone.js"></script>
+<script>
+	$(document).ready(function(){
+		var collection = new Backbone.Collection([
+		  { name: 'Tim', age: 5 },
+		  { name: 'Ida', age: 26 },
+		  { name: 'Rob', age: 55 }
+		]);
+
+		var filteredNames = collection.chain() // start chain, returns wrapper around collection's models
+		  .filter(function(item) { return item.get('age') > 10; }) // returns wrapped array excluding Tim
+		  .map(function(item) { return item.get('name'); }) // returns wrapped array containing remaining names
+		  .value(); // terminates the chain and returns the resulting array
+
+		console.log(filteredNames); // logs: ['Ida', 'Rob']
+
+		
+		var TodosCollection = new Backbone.Collection();
+
+		TodosCollection.add([
+		    { id: 1, title: 'go to Jamaica.', completed: false },
+		    { id: 2, title: 'go to China.', completed: false },
+		    { id: 3, title: 'go to Disneyland.', completed: true }
+		]);
+
+		// we can listen for add/change/remove events
+		TodosCollection.on("add", function(model) {
+		  console.log("Added " + model.get('title'));
+		});
+
+		TodosCollection.on("remove", function(model) {
+		  console.log("Removed " + model.get('title'));
+		});
+
+		TodosCollection.on("change:completed", function(model) {
+		  console.log("Completed " + model.get('title'));
+		});
+
+		TodosCollection.on("reset",function(todos,options) {
+			console.log(options.previousModels[0]);
+		})
+
+		// set一次性更新了Collections里面的内容
+		TodosCollection.set([
+		    { id: 1, title: 'go to Jamaica.', completed: true },
+		    // { id: 2, title: 'go to China.', completed: false },
+		    // { id: 4, title: 'go to Disney World.', completed: false },
+		    // { id: 5, title: 'go to Disney World.', completed: false }
+		]);
+		console.log('Collection size: ' + TodosCollection.length); 
+
+		// Note that using Collection.reset() doesn’t fire any add or remove events. A reset event is fired instead.
+		TodosCollection.reset([
+		  { title: 'go to Cuba.', completed: false }
+		]);
+		console.log('Collection size: ' + TodosCollection.length); 
+
+		// Above logs:
+		// Completed go to Jamaica.
+		// Removed go to Disneyland.
+		// Added go to Disney World.
+
+		// var Todo = Backbone.Model.extend({
+		//   defaults: {
+		//     title: '',
+		//     completed: false
+		//   }
+		// });
+
+		// var myTodo = new Todo();
+		// myTodo.set({title: 'Buy some cookies', completed: true});
+
+		// myTodo.on({
+		//    'change:title' : titleChanged,
+		//    'change:completed' : stateChanged
+		// });
+
+		// function titleChanged(){
+		//   console.log('The title was changed!');
+		// }
+
+		// function stateChanged(){
+		//   console.log('The state was changed!');
+		// }
+
+		// myTodo.set({title: 'Get the groceries'});
+		// // The title was changed!
+
+
+		// var items = new Backbone.Collection;
+		// // Each model in Backbone has an id, which is a unique identifier that is either an integer or string (e.g., a UUID). 
+		// items.add([{ id : 1, name: "Dog" , age: 3}, { id : 2, name: "cat" , age: 2}]);
+		// // items.add([{ id : 1, name: "Bear" }], {merge: true });
+		// items.add([{ id : 1, name: "Bear" }]); //会被忽略
+		// items.add([{ id : 2, name: "lion" }]); // merge: false
+
+
+		// console.log(JSON.stringify(items.toJSON()));
+		// console.log(items.get(2))//用uid retrieve models
+
+
+		// 	var Todo = Backbone.Model.extend({
+		// 	  defaults: {
+		// 	    title: '',
+		// 	    completed: false
+		// 	  }
+		// 	});
+
+		// 	var TodosCollection = Backbone.Collection.extend({
+		// 	  model: Todo
+		// 	});
+
+		// 	var a = new Todo({ title: 'Go to Jamaica.'}),
+		// 	    b = new Todo({ title: 'Go to China.'}),
+		// 	    c = new Todo({ title: 'Go to Disneyland.'});
+
+		// 	var todos = new TodosCollection([a,b]);
+		// 	console.log("Collection size: " + todos.length);
+		// 	// Logs: Collection size: 2
+
+		// 	todos.add(c);
+		// 	console.log("Collection size: " + todos.length);
+		// 	// Logs: Collection size: 3
+
+		// 	todos.remove([a,b]);
+		// 	console.log("Collection size: " + todos.length);
+		// 	// Logs: Collection size: 1
+
+		// 	todos.remove(c);
+		// 	console.log("Collection size: " + todos.length);
+		// 	// Logs: Collection size: 0
+
+	})
+
+</script>
+</body>
+</html>
