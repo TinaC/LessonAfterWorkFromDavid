@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="user-scalable=no, initial-scale=1,width=device-width" />
+
+	<title>千亩源</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/css/bootstrap_ms.css">
+	<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="css/main.css"/>
+
+	<script src="../backbone/lib/jquery.js"></script>
+	<!--<script src="bower_components/jquery-ui/ui/jquery-ui.min.js"></script>-->
+	<!--<script src="bower_components/angular/angular.min.js"></script>-->
+	<script src="handlebars/handlebars.min.js"></script>
+	<!--<script src="bower_compoents/ui-b"></script>-->
+
+</head>
+
+
+<body>
+
+<script type="text/javascript">
+	$(function() {
+		Handlebars.registerHelper("math", function(lvalue, operator, rvalue, options) {
+			lvalue = parseFloat(lvalue);
+			rvalue = parseFloat(rvalue);
+
+			return {
+				"+": lvalue + rvalue,
+				"-": lvalue - rvalue,
+				"*": lvalue * rvalue,
+				"/": lvalue / rvalue,
+				"%": lvalue % rvalue
+			}[operator];
+		})
+
+		var theTemplateScript = $("#maishuiguo-template").html();
+		var theTemplate = Handlebars.compile(theTemplateScript);
+//
+//		var test = {
+//			"name":
+//		}
+
+		var shuiguo = {
+			"status":"success",
+			"goods":[{
+				"id":65,
+				"name":"测试",
+				"status":"SHELVING",
+				"visible":false,
+				"price":1.24,
+				"priceUnit":null,
+				"kind":0,
+				"count":0,
+				"stock":0,
+				"discount":1.00,
+				"pictureUrl":"img\\测试",
+				"originInfo":null,
+				"originInfoImg":"img\\测试-origin",
+				"productInfo":null,
+				"productInfoImg":null,"nutritionInfo":null,"nutritionInfoImg":null,"cookingInfo":null,"cookingInfoImg":null
+			},
+				{
+					"id":66,
+					"name":"测试",
+					"status":"SHELVING",
+					"visible":false,
+					"price":1.24,
+					"priceUnit":null,
+					"kind":0,
+					"count":0,
+					"stock":0,
+					"discount":1.00,
+					"pictureUrl":"img\\测试",
+					"originInfo":null,
+					"originInfoImg":"img\\测试-origin",
+					"productInfo":null,
+					"productInfoImg":null,"nutritionInfo":null,"nutritionInfoImg":null,"cookingInfo":null,"cookingInfoImg":null
+				}
+			]
+		}
+
+		var theCompiledHtml = theTemplate(shuiguo);
+		$("#maishuiguo-content").html(theCompiledHtml);
+
+		var date = new Date();
+		var weekday = new Array(7);
+		weekday[0] = "星期日";
+		weekday[1] = "星期一";
+		weekday[2] = "星期二";
+		weekday[3] = "星期三";
+		weekday[4] = "星期四";
+		weekday[5] = "星期五";
+		weekday[6] = "星期六";
+
+		document.getElementById("year").innerHTML = date.getFullYear();
+		document.getElementById("month").innerHTML = date.getMonth() + 1;
+		document.getElementById("day").innerHTML = date.getDate();
+		document.getElementById("weekday").innerHTML = weekday[date.getDay()];
+	})
+</script>
+
+
+
+<script id="maishuiguo-template" type="text/x-handlebars-template">
+
+				<div class="row">
+
+					{{#each goods}}
+
+					<div class="col-xs-12 col-ms-6 col-md-4 col-lg-3">
+						<div class="thumbnail">
+							<a href="#">
+								<img class="img-responsive" src="{{priceUrl}}"/>
+							</a>
+						</div>
+						<div class="product_info">
+							<label>{{this.name}}</label>
+							<div>
+								<span class="current_price">{{math price "*" discount}}</span><span>{{priceUnit}}</span>
+								<span class="origin_price">{{price}}</span><span>{{priceUnit}}</span>
+								<span class="current_price">{{math discount "%" 10}}折！</span>
+							</div>
+							<dl><dt>数量:</dt><dd>{{count}}</dd></dl>
+							<dl><dt>备注:</dt><dd>{{notes}}</dd></dl>
+							<dl><dt class="purchase_num">购买数量:</dt></dl>
+							<span class="spinner-down">-</span>
+							<input type="text" value="0" name="Quantity" class="currentQuantity" maxlength="2">
+							<span class="spinner-up">+</span>
+						</div>
+					</div>
+
+					{{/each}}
+
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+
+
+
+<body>
+	<div class="container container-border">
+		<div class="row">
+			<div id="fruit_list">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-12">
+							<p><span id="year"></span>年<span id="month"></span>月<span id="day"></span>日</span><span id="weekday"></span></p>
+						</div>
+					</div>
+
+					<div class="row"  id="maishuiguo-content"></div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+
+<footer class="footer container">
+	<!-- <p>版权所有:上海千亩源农业科技有限公司</p> -->
+	<a href="">公司简介</a>
+	<a href="">联系我们</a>
+</footer>
+	
+</body>
+
+</html>
