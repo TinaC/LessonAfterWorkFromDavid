@@ -79,3 +79,61 @@ var fibonacci = function () {
 for(var i = 0; i <= 10; i++){
 	document.writeln("//" + i + ":" + fibonacci(i));
 }
+
+// Functional, privacy
+// spec对象包含构造器需要构造一个新实例的所有信息，这时候name和saying是完全私有的
+var mammal = function (spec) {
+	var that =  {};
+
+	that.get_name = function () {
+		return spec.name;
+	};
+
+	that.says = function () {
+		return spec.saying || '';
+	};
+
+	return that;
+ }
+
+ var cat = function (spec) {
+ 	spec.saying = spec.saying || 'meow';
+ 	var that = mammal(spec);
+ 	that.purr = function(n) {
+ 		var i, s = '';
+ 		for(i=0; i<n; i += 1) {
+ 			if(s) {
+ 				s += '-';
+ 			}
+ 			s += 'r';
+ 		}
+ 		return s;
+ 	};
+ 	that.get_name = function () {
+ 		return that.says() + ' ' + spec.name + ' ' + that.says();
+  	};
+  	return that;
+ };
+
+ var myCat = cat({name: 'Hei'})
+
+// 处理父类方法的方法
+ Object.method('superior', function(name) {
+ 	var that = this,
+ 		method = that[name];
+ 	return function() {
+ 		return method.apply(that, arguments);
+ 	};
+ })
+
+ var coolcat = function (spec) {
+ 	var that = cat(spec),
+ 	super_get_name = that.superior('get_name');
+ 	that.get_name = function(n) {
+ 		return 'like' + super_get_name() + 'body';
+ 	};
+ 	return that;
+ };
+
+var myCoolCat = coolcat({name: 'Bix'});
+var name - myCoolCat.get_name();
