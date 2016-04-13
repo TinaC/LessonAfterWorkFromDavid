@@ -1,10 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-</head>
-<body>
-	
+<html>
+<meta charset="utf-8">
+<span>22</span> <span>55</span>
+<span>44</span><span>556</span>
+<ul id="myList"><li>Coffee</li><li>Tea</li></ul>
+<body><p id="demo">请点击按钮来获得 body 元素子节点的节点类型。<span>test</span></p>
+
+<button onclick="myFunction()">试一下</button>
+
+<script>
+// 转化为数组
+function convertToArray(nodes) {
+	var array = null;
+	try {
+		array = Array.prototype.slice.call(nodes,0)
+	} catch (ex) {
+		// for IE8- ，它将NodeList实现为了COM对象，只能手动枚举
+		array = new Array();
+		for(var i=0, len=nodes.length; i < len; i++) {
+			array.push(nodes[i]);
+		}
+	}
+
+	return array;
+}
+
+function myFunction()
+{
+
+var txt="";
+// childeNodes属性中保存着一个NodeList对象，是基于DOM结构动态执行查询的结果
+var c=document.body.childNodes;
+// console.log(convertToArray(c))
+
+// console.log(c[0])
+// console.log(c[0].previousSibling)
+// console.log(c[0].nextSibling)
+
+// console.log(c[0].firstChild )
+// console.log(c[0].firstChild == c[0].childNodes[0] )
+
+// console.log(c[0].lastChild)
+// console.log(c[0].lastChild == c[0].childNodes[c[0].childNodes.length-1] )
+
+// console.log(c[0].hasChildNodes())
+// // 指向整个文档的文档节点
+// console.log(c[0].ownerDocument)
+
+// c[1]会从原来的位置转移
+
+console.log(c[0])
+console.log(c[1])//是空格
+
+for (i=0; i<c.length; i++)
+  {
+  txt=txt + i + ":" + c[i].nodeType + " " + c[i].nodeName + "<br>";
+  };
+var x=document.getElementById("demo");  
+x.innerHTML=txt;
+
+// console.log(c[4])
+// console.log(c[5])
+// console.log(c[2].appendChild(c[0]))
+// insertBefore(newNode, positionNode)
+// console.log(c[2])
+// console.log(c[4])
+// console.log(c[5])
+// console.log(c[2].insertBefore(c[4],c[5]))
+
+// var newItem=document.createElement("LI")
+// var textnode=document.createTextNode("Water")
+// newItem.appendChild(textnode)
+
+// var list=document.getElementById("myList")
+
+// var deepList = myList.cloneNode(true);
+// var shallowList = myList.cloneNode(false);
+
+// console.log(list.childNodes)
+// // 注意insertbefore是插入子节点的位置， A.insertBefore(newItem, B) . B是A中的子节点。如果A没有子节点，也就不需要指定位置了，写null就行，不然会报错
+// list.childNodes[0].insertBefore(newItem,null);
+// list.insertBefore(newItem,list.childNodes[0]);
+// console.log(list.nodeType)
+// console.log(newItem.nodeType)
+}
+</script>
+
+<p><b>注释：</b>元素中的空格被视作文本，而文本被视作文本节点。</p>
+
 </body>
 </html>
