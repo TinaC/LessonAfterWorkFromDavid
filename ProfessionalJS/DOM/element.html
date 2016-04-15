@@ -54,14 +54,22 @@
 		// console.log(div.attributes["id"].nodeValue);
 		// console.log(outputAttributes(div))
 
-		// 5.创建元素
-		var newdiv = document.createElement("div");
-		console.log(newdiv.ownerDocument)
-		newdiv.id = "mynewdiv";
-		newdiv.className = "box";
-		document.body.appendChild(newdiv);
+		// // 5.创建元素
+		// var newdiv = document.createElement("div");
+		// console.log(newdiv.ownerDocument)
+		// newdiv.id = "mynewdiv";
+		// newdiv.className = "box";
+		// document.body.appendChild(newdiv);
 
-		
+// 10.1.4 Text
+		var textNode = div.firstChild;
+		console.log(textNode.nodeType);
+		textNode.nodeValue = "BIUBIUBIU";
+
+		var newText = document.createTextNode("<strong>Hellow</strong> text");
+		div.appendChild(newText);
+		div.normalize();
+
 	}
 </script>
 <body>
