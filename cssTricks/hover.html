@@ -1,0 +1,43 @@
+<!-- 闪烁的原因：hover上去后，后面一个div显示了，然后hover到的就是后面一个元素，而不是.shadow,这样后面的那个元素就消失了。再次移动鼠标，再次hover -->
+
+<!-- The definition of hover is:
+The :hover selector is used to select elements when you mouse over them. -->
+
+<!-- 解决：再加一个aa：hover -->
+
+<!Doctype html>
+<html>
+	<head></head>
+	<style type="text/css">
+		.shadow {
+			float: left;
+			height: 250px;
+			width: 250px;
+		}
+
+/*		.shadow + div {
+			display: block;
+		}*/
+		.shadow:hover + div {
+			display: block;
+		}
+
+		.aa {
+			display: none;
+			background-color: rgba(123, 0, 0, .5);
+			position: relative;
+			width: 250px;
+			height: 250px;
+			top: 0px;
+		}
+	</style>
+	<body>
+		<div class="container">
+			<div class="shadow">
+				<span>hover to be shadowed</span>
+				<img src="a.jpg">
+			</div>
+			<div class="aa"></div>
+		</div>
+	</body>
+</html>
