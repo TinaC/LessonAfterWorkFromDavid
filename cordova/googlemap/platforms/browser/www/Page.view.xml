@@ -1,0 +1,27 @@
+<mvc:View
+	height="100%"
+	controllerName="sap.m.sample.ToggleButton.Page"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m">
+	<Page
+		title="Driver"
+		class="sapUiContentPadding">
+		<content>
+			<HBox>
+				<ToggleButton class="toggle" text="Start" enabled="true" pressed="false" press="onPress" textAlign="center">
+					<layoutData>
+						<FlexItemData growFactor="1" />
+					</layoutData>
+				</ToggleButton>
+			</HBox>
+		</content>
+		<content>
+			<Panel id="map">map</Panel>
+		</content>
+		<footer>
+			<Bar>
+
+			</Bar>
+		</footer>
+	</Page>
+</mvc:View>
