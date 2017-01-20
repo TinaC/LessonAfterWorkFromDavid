@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		#first {
+			color: #42e042;
+		}
+
+		#second {
+			color: red;
+		}
+	</style>
+</head>
+<body>
+	<ul id="results"></ul>
+	<ul id="first"></ul>
+
+	<ul id="second">ddddddddddddddd</ul>
+
+	<script type="text/javascript">
+	"use strict";
+	
+		function infiltrate(person) {
+			assert(person === 'gardener',
+			'The person is a gardener');
+			assert(arguments[0] === 'gardener',
+			'The first argument is a gardener');
+			arguments[0] = 'ninja';
+			assert(person === 'ninja',
+			'The person is a ninja now');
+			assert(arguments[0] === 'ninja',
+			'The first argument is a ninja');
+			person = 'gardener';
+			assert(person === 'gardener',
+			'The person is a gardener once more');
+			assert(arguments[0] === 'gardener',
+			'The first argument is a gardener again');
+		}
+		infiltrate("gardener");
+
+
+		function assert(value, desc) {
+			var li = document.createElement("li");
+			li.className = value ? "pass" : "fail";
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById("results").appendChild(li);
+		}
+
+		function whatever(a, b, c){
+			assert(a === 1, 'The value of a is 1');
+			assert(b === 2, 'The value of b is 2');
+			assert(c === 3, 'The value of c is 3');
+			assert(arguments.length === 5,
+			'We’ve passed in 5 parameters');
+			assert(arguments[0] === a,
+			'The first argument is assigned to a');
+			assert(arguments[1] === b,
+			'The second argument is assigned to b');
+			assert(arguments[2] === c,
+			'The third argument is assigned to c');
+			assert(arguments[3] === 4,
+			'We can access the fourth argument');
+			assert(arguments[4] === 5,
+			'We can access the fifth argument');
+		}
+
+		function sum() {
+			var sum = 0;
+			for(var i = 0; i < arguments.length; i++){
+				console.log(arguments[i])
+				sum += arguments[i];
+			}
+			return sum;
+		}
+
+		function rest(...theArgs) {
+			console.log(theArgs.length)
+			var sum = 0;
+			for(var i = 0; i < theArgs.length; i++){
+				console.log(theArgs[i])
+				sum += theArgs[i];
+			}
+			return sum;
+		}
+
+		console.log(rest(1, 2) === 3)
+		console.log(sum(1, 2) === 3)
+
+		// whatever(1,2,3,4,5);
+
+
+		
+
+	</script>
+</body>
+</html>

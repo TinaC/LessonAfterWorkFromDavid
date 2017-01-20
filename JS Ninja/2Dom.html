@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		#first {
+			color: #42e042;
+		}
+
+		#second {
+			color: red;
+		}
+	</style>
+</head>
+<body>
+	<ul id="first"></ul>
+	<script type="text/javascript">
+		function addMessage(element, message) {
+			var messageElement = document.createElement("li");
+			messageElement.textContent = message;
+			element.appendChild(messageElement);
+		}
+
+		var first = document.getElementById("first");
+		addMessage(first, "Page loading")
+	</script>
+	<ul id="second"></ul>
+</body>
+</html>

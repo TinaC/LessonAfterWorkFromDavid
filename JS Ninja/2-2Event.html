@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		#first {
+			color: #42e042;
+		}
+
+		#second {
+			color: red;
+		}
+	</style>
+</head>
+<body>
+	<ul id="first"></ul>
+
+	<ul id="second">ddddddddddddddd</ul>
+
+	<script type="text/javascript">
+		function addMessage(element, message) {
+			var messageElement = document.createElement("li");
+			messageElement.textContent = message;
+			element.appendChild(messageElement);
+		}
+
+		// document.body.addEventListener("mousemove", function(){
+		// 	var second = document.getElementById("second");
+		// 	addMessage(second, "Event: mousemove 1");
+		// })
+
+		// document.body.addEventListener("mousemove", function(){
+		// 	var second = document.getElementById("second");
+		// 	addMessage(second, "Event: mousemove 2");
+		// })
+
+
+		// document.body.addEventListener("click", function(){
+		// 	var second = document.getElementById("second");
+		// 	addMessage(second, "Event: click");
+		// })
+
+		document.body.onclick = function(){
+			console.log("onclick 1 ")
+		}
+
+		document.body.onclick = function(){
+			console.log("onclick 2")
+		}
+
+
+	</script>
+</body>
+</html>
