@@ -1,0 +1,176 @@
+{
+	"_version": "1.3.0",
+	"sap.app": {
+		"_version": "1.3.0",
+		"id": "realtime",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"dataSources": {
+			"mainService": {
+				"uri": "/destinations/fleetTable/cts/services/master_data/vehicle.xsodata/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/metadata.xml"
+				}
+			}
+		},
+		"sourceTemplate": {
+			"id": "sap.ui.ui5-template-plugin.2masterdetail",
+			"version": "1.36.2"
+		}
+	},
+	"sap.ui": {
+		"_version": "1.3.0",
+		"technology": "UI5",
+		"icons": {
+			"icon": "sap-icon://detail-view",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_hcb",
+			"sap_bluecrystal"
+		]
+	},
+	"sap.ui5": {
+		"_version": "1.2.0",
+		"rootView": {
+			"viewName": "realtime.view.Map",
+			"type": "XML",
+			"id": "app"
+		},
+		"dependencies": {
+			"minUI5Version": "1.36.0",
+			"libs": {
+				"sap.ui.core": {
+					"minVersion": "1.36.0"
+				},
+				"sap.m": {
+					"minVersion": "1.36.0"
+				}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "realtime.i18n.i18n"
+				}
+			},
+			"": {
+				"dataSource": "mainService",
+				"settings": {
+					"metadataUrlParams": {
+						"sap-documentation": "heading"
+					}
+				}
+			}
+		},
+		"routing": {
+			"config": {
+
+				"routerClass": "sap.m.routing.Router",
+
+				//the views are XML
+				"viewType": "XML",
+
+				//the absolute path to our view definitions 
+				"viewPath": "realtime.view",
+
+				//unless stated otherwise, when the router instantiates a view, it should place it in the detail part of our sap.m.SplitApp control (via the detailPages aggregation)
+				"targetAggregation" : "detailPages",
+				// "controlAggregation": "detailPages",
+
+				"controlId": "idAppControl",
+
+				//we don't want the target aggregation (detailPages) to be cleared before views are added, so we specify false for the clearTarget parameter
+				clearTarget : false
+
+				"bypassed": {
+					"target": [
+						"master",
+						"notFound"
+					]
+				},
+				"async": true
+			},
+
+			//The routes section is an array of routing configuration objects representing routes that we want to handle. Each configuration object has a single mandatory parameter name. All other parameters are optional. 除了参数名字其他都是可选的
+			"routes": [
+				{
+					//We have a "main" route that causes the Master view to be placed in the masterPages aggregation of the sap.m.SplitApp, which is available via its id 'idAppControl'. There is also a subroute defined, in particular:
+					"pattern": "",
+					"name": "map",
+					"target": [
+						"object",
+						"map"
+					]
+				},
+				{
+					"pattern": "Master",
+					"name": "master",
+					"target": [
+						"object",
+						"master"
+					]
+				},
+				{
+					"pattern": "VEHICLES/{objectId}",
+					"name": "object",
+					"target": [
+						"master",
+						"object"
+					]
+				}
+			],
+			"targets": {
+				"map": {
+					"viewName": "Map",
+					"viewLevel": 1,
+					"viewId": "map"
+				},
+				"master": {
+					"viewName": "Master",
+					"viewLevel": 1,
+					"viewId": "master",
+					"controlAggregation": "masterPages"
+				},
+				"object": {
+					"viewName": "Detail",
+					"viewId": "detail",
+					"viewLevel": 2
+				},
+				"detailObjectNotFound": {
+					"viewName": "DetailObjectNotFound",
+					"viewId": "detailObjectNotFound"
+				},
+				"detailNoObjectsAvailable": {
+					"viewName": "DetailNoObjectsAvailable",
+					"viewId": "detailNoObjectsAvailable"
+				},
+				"notFound": {
+					"viewName": "NotFound",
+					"viewId": "notFound"
+				}
+			}
+		}
+	}
+}
