@@ -44,12 +44,26 @@ var app = {
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
 
+        alert("1");
+        alert(window);
+        alert(window.HTMLPreElement)
+        Object.getOwnPropertyNames(window)
+        var a = "";
+        .forEach(function(v, x) {
+            if (v === 'HTMLPreElement')
+                a + = v
+            else
+                a+=v;
+        });
+        alert(a)
+
 
         // #####################
         window.echo("echome", function(echoValue) {
             alert(echoValue == "echome"); // should alert true.
         });
         // #######################
+        alert("2")
 
         console.log('Received Event: ' + id);
     }

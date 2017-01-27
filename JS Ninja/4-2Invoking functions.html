@@ -2,15 +2,6 @@
 <html>
 <head>
 	<title></title>
-	<style type="text/css">
-		#first {
-			color: #42e042;
-		}
-
-		#second {
-			color: red;
-		}
-	</style>
 </head>
 <body>
 	<ul id="results"></ul>
@@ -59,7 +50,59 @@
 
 	new whatsMyContext(); // invoke whatsMyContext as a constructor
 
+	function Ninja1() {
+		this.skulk = function() {
+			return this;
+		};
+	}
 
+	var ninja1 = new Ninja1();
+	var ninja2 = new Ninja1();
+
+	assert(ninja1.skulk() === ninja1, "The 1st ninja is skulking");
+	assert(ninja2.skulk() === ninja2, "The 2st ninja is skulking");
+
+	function Ninja() {
+		this.skulk = function() {
+			return true;
+		};
+
+		return 1;
+	}
+
+	assert(Ninja() === 1 , "Return value honored when not called as a constructor")
+
+	var ninja = new Ninja(); //ninja是个对象，而不会是1. 但是函数还是会执行到return 1
+
+	assert(typeof ninja === "object", "Object returned when called as a constructor");
+	assert(typeof ninja.skulk === "function", "ninja object has a skulk method");
+
+	var puppet = {
+		// rules: false
+	};
+
+	function Emperor() {
+		this.rules = true;
+		return puppet;
+	}
+
+	var emperor = new Emperor();
+
+	assert(emperor === puppet, "The emperor is merely a puppet !");
+	assert(emperor.rules === false, "The puppet does not know how to rule!")
 	</script>
+
+	<style type="text/css">
+		#first {
+			color: #42e042;
+		}
+
+		#second {
+			color: red;
+		}
+
+		#results li.pass {color: green;}
+		#results li.fail {color: red;}
+	</style>
 </body>
 </html>

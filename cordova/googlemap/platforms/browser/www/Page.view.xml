@@ -16,7 +16,7 @@
 			</HBox>
 		</content>
 		<content>
-			<Panel id="map">map</Panel>
+			<Panel id="map"><text>map</text></Panel>
 		</content>
 		<footer>
 			<Bar>
