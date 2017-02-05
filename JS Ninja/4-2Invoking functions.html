@@ -7,99 +7,108 @@
 	<ul id="results"></ul>
 	<ul id="first"></ul>
 
-	<button id="test">Click Me!<button>
+	<button id="test">Click Me!</button>
 
 	<!-- <ul id="second">ddddddddddddddd</ul> -->
 
 	<script type="text/javascript">
-"use strict";
-	function assert(value, desc) {
-		var li = document.createElement("li");
-		li.className = value ? "pass" : "fail";
-		li.appendChild(document.createTextNode(desc));
-		document.getElementById("results").appendChild(li);
-	}
+	// "use strict";
+		function assert(value, desc) {
+			var li = document.createElement("li");
+			li.className = value ? "pass" : "fail";
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById("results").appendChild(li);
+		}
 
-	function ninja() {
-		return this;
-	}
-
-	function samurai() {
-		"use strict"
-		return this;
-	}
-
-	function whatsMyContext () {
-		return this;
-	}
-
-	//invocation as a function 
-	assert(ninja() == window, "In a 'nonstrict' ninja function 'this' is window" );
-	assert(samurai() == undefined, "In a 'strict' samurai function 'this' is undefined");
-
-	var getMyThis = whatsMyContext;  //不会创建函数的第二个instance， 只会创建一个函数的reference。 因为函数是（first-class）object嘛
-
-	var ninja1 = {
-		getMyThis: whatsMyContext // getMyThis 是 ninja1中的method, whatsMyContext仍然是一个independent function
-	}
-
-	//invocation as a method
-	assert(ninja1.getMyThis() === ninja1, "Working with 1st ninja");
-
-	var ninja2 = {
-		getMyThis: whatsMyContext
-	}
-
-	assert(ninja2.getMyThis() === ninja2, "Working with 2st ninja");
-
-	new whatsMyContext(); // invoke whatsMyContext as a constructor
-
-	function Ninja1() {
-		this.skulk = function() {
+		function ninja() {
 			return this;
+		}
+
+		function samurai() {
+			"use strict"
+			return this;
+		}
+
+		function whatsMyContext () {
+			return this;
+		}
+
+		//invocation as a function 
+		assert(ninja() == window, "In a 'nonstrict' ninja function 'this' is window" );
+		assert(samurai() == undefined, "In a 'strict' samurai function 'this' is undefined");
+
+		var getMyThis = whatsMyContext;  //不会创建函数的第二个instance， 只会创建一个函数的reference。 因为函数是（first-class）object嘛
+
+		var ninja1 = {
+			getMyThis: whatsMyContext // getMyThis 是 ninja1中的method, whatsMyContext仍然是一个independent function
+		}
+
+		//invocation as a method
+		assert(ninja1.getMyThis() === ninja1, "Working with 1st ninja");
+
+		var ninja2 = {
+			getMyThis: whatsMyContext
+		}
+
+		assert(ninja2.getMyThis() === ninja2, "Working with 2st ninja");
+
+		new whatsMyContext(); // invoke whatsMyContext as a constructor
+
+		function Ninja1() {
+			this.skulk = function() {
+				return this;
+			};
+		}
+
+		var whatever = Ninja1();
+
+		var ninja1 = new Ninja1();
+		var ninja2 = new Ninja1();
+
+		//invocation as constructor
+		assert(ninja1.skulk() === ninja1, "The 1st ninja is skulking");
+		assert(ninja2.skulk() === ninja2, "The 2st ninja is skulking");
+
+		function Ninja() {
+			this.skulk = function() {
+				return true;
+			};
+
+			return 1;
+		}
+
+		assert(Ninja() === 1 , "Return value honored when not called as a constructor")
+
+		var ninja = new Ninja(); //ninja是个对象，而不会是1. 但是函数还是会执行到return 1
+
+		assert(typeof ninja === "object", "Object returned when called as a constructor");
+		assert(typeof ninja.skulk === "function", "ninja object has a skulk method");
+
+		var puppet = {
+			rules: false
 		};
-	}
 
-	var whatever = Ninja1();
+		function Emperor() {
+			this.rules = true;
+			return puppet;
+		}
 
-	var ninja1 = new Ninja1();
-	var ninja2 = new Ninja1();
+		var emperor = new Emperor();
 
-	//invocation as constructor
-	assert(ninja1.skulk() === ninja1, "The 1st ninja is skulking");
-	assert(ninja2.skulk() === ninja2, "The 2st ninja is skulking");
-
-	function Ninja() {
-		this.skulk = function() {
-			return true;
-		};
-
-		return 1;
-	}
-
-	assert(Ninja() === 1 , "Return value honored when not called as a constructor")
-
-	var ninja = new Ninja(); //ninja是个对象，而不会是1. 但是函数还是会执行到return 1
-
-	assert(typeof ninja === "object", "Object returned when called as a constructor");
-	assert(typeof ninja.skulk === "function", "ninja object has a skulk method");
-
-	var puppet = {
-		// rules: false
-	};
-
-	function Emperor() {
-		this.rules = true;
-		return puppet;
-	}
-
-	var emperor = new Emperor();
-
-	assert(emperor === puppet, "The emperor is merely a puppet !");
-	assert(emperor.rules === false, "The puppet does not know how to rule!")
-	
-	//invocation with the apply and call methods
-
+		assert(emperor === puppet, "The emperor is merely a puppet !");
+		assert(emperor.rules === false, "The puppet does not know how to rule!")
+		
+		//invocation with the apply and call methods
+		function Button(){
+			this.clicked = false;
+			this.click = function() {
+				this.clicked = true;
+				assert(button.clicked, "The button has been clicked");
+			}
+		}
+		var button = new Button();
+		var elem = document.getElementById("test");
+		elem.addEventListener("click", button.click);
 
 	</script>
 
