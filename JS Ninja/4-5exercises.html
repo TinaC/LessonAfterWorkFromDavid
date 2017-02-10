@@ -10,7 +10,7 @@
 	<button id="test">Click Me!</button>
 	<button id="test2">Click M2e!</button>
 	<script type="text/javascript">
-	// "use strict";
+	
 		function assert(value, desc) {
 			var li = document.createElement("li");
 			li.className = value ? "pass" : "fail";
@@ -18,37 +18,71 @@
 			document.getElementById("results").appendChild(li);
 		}
 
-		function MyButton(){
-			console.log(this); //this == myButton
-			this.clicked = false;
-			this.click = () => {
-				console.log(this); //this == myButton
-				this.clicked = true;
-				assert(button.clicked, "The button has been clicked");
+		function sum(...args){
+			var sum = 0;
+			for(var i = 0; i < args.length; i++){
+				sum += args[i];
 			}
+			return sum;
 		}
-		var button = new MyButton();
-		var elem = document.getElementById("test");
-		elem.addEventListener("click", button.click);
+		assert(sum(1, 2, 3) === 6, 'Sum of first three numbers is 6');
+		assert(sum(1, 2, 3, 4) === 10, 'Sum of first four numbers is 10');
 
-		assert(this === window, "this === window");
-		var button2 = {
-			clicked: false,
-			click: () => {
-				this.clicked = true;
-				assert(button.clicked,"The button has been clicked");
-				assert(this === window, "In arrow function this === window");
-				assert(window.clicked, "clicked is stored in window");
+		//第二题 Toyotomi, Fuma
+		function getSamurai(samurai){
+			"use strict"
+			arguments[0] = "Ishida";
+			return samurai;
+		}
+		function getNinja(ninja){
+			arguments[0] = "Fuma";
+			return ninja;
+		}
+		var samurai = getSamurai("Toyotomi");
+		var ninja = getNinja("Yoshi");
+
+		//第三题
+		function whoAmI1(){
+			"use strict";
+			return this; //undefined
+		}
+		function whoAmI2(){
+			return this; //window
+		}
+		assert(whoAmI1() === window, "Window?"); 
+		assert(whoAmI2() === window, "Window?");
+
+		//第四题
+		var ninja1 = {
+			whoAmI: function(){
+				return this;
 			}
+		};
+		var ninja2 = {
+			whoAmI: ninja1.whoAmI
+		};
+
+		var identify = ninja2.whoAmI;
+		assert(ninja1.whoAmI() === ninja1, "ninja1?");   //pass
+		//assert(ninja2.whoAmI() === ninja1, " ninja1 again?"); //fail 
+		assert(ninja2.whoAmI() === ninja2, " ninja2");
+		//assert(identify() === ninja1, "ninja1 again?"); //fail
+		assert(identify() === window, "function call : window?"); 
+		assert(ninja1.whoAmI.call(ninja2) === ninja2, "ninja2 here?"); // fail(错) pass
+
+		//第五题， 箭头函数的函数取决于函数定义的时候.Arrow functions don't have their own this value. Instead, they remember the value of the this parameter at the time of their definition. 
+
+		function Ninja(){
+			this.whoAmI = () => this;
 		}
-
-		var elem2 = document.getElementById("test2");
-		elem2.addEventListener("click", button2.clicked);
-
-		elem.addEventListener("click", button.click.bind(button));
-		var boundFunction = button.click.bind(button);
-		assert(boundFunction != button.click, "Calling bind creates a completly new function");
-
+		var ninja1 = new Ninja(); //这个时候才是definition啊
+		var ninja2 = {
+			whoAmI: ninja1.whoAmI
+		};
+		assert(ninja1.whoAmI() === ninja1, "arrow: ninja1 here?");
+		assert(ninja2.whoAmI() === ninja2, "arrow: ninja2 here?"); //fail, === ninja1
+		assert(ninja2.whoAmI() === window, "arrow: ?"); 
+		assert(ninja2.whoAmI() === ninja1, "arrow: ninja2.whoAmI() === ninja1"); 
 
 	</script>
 
