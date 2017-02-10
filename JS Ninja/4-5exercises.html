@@ -31,10 +31,12 @@
 		//第二题 Toyotomi, Fuma
 		function getSamurai(samurai){
 			"use strict"
+			// the arguments parameter doesn't alias function parameters
 			arguments[0] = "Ishida";
 			return samurai;
 		}
 		function getNinja(ninja){
+			//any changes made to the arguments parameter will be reflected in the function parameters
 			arguments[0] = "Fuma";
 			return ninja;
 		}
@@ -63,12 +65,12 @@
 		};
 
 		var identify = ninja2.whoAmI;
-		assert(ninja1.whoAmI() === ninja1, "ninja1?");   //pass
-		//assert(ninja2.whoAmI() === ninja1, " ninja1 again?"); //fail 
+		assert(ninja1.whoAmI() === ninja1, "ninja1?");   //pass, whoAmI called as a method of ninja1
+		//assert(ninja2.whoAmI() === ninja1, " ninja1 again?"); //fail , whoAmI called as a method of ninja2
 		assert(ninja2.whoAmI() === ninja2, " ninja2");
 		//assert(identify() === ninja1, "ninja1 again?"); //fail
-		assert(identify() === window, "function call : window?"); 
-		assert(ninja1.whoAmI.call(ninja2) === ninja2, "ninja2 here?"); // fail(错) pass
+		assert(identify() === window, "function call : window?"); //identify calls the function as a function
+		assert(ninja1.whoAmI.call(ninja2) === ninja2, "ninja2 here?"); // fail(错) pass Using call to supply the function context this refers to ninja2
 
 		//第五题， 箭头函数的函数取决于函数定义的时候.Arrow functions don't have their own this value. Instead, they remember the value of the this parameter at the time of their definition. 
 
@@ -79,10 +81,28 @@
 		var ninja2 = {
 			whoAmI: ninja1.whoAmI
 		};
+		
+		//pass: whoAmI is an arrow function inherits the function context
+		//from the context in which it was created.
+		//Because it was created during the construction of ninja1
+		//this will always point to ninja1
 		assert(ninja1.whoAmI() === ninja1, "arrow: ninja1 here?");
 		assert(ninja2.whoAmI() === ninja2, "arrow: ninja2 here?"); //fail, === ninja1
 		assert(ninja2.whoAmI() === window, "arrow: ?"); 
 		assert(ninja2.whoAmI() === ninja1, "arrow: ninja2.whoAmI() === ninja1"); 
+
+		//第六题
+		function Ninja(){
+			this.whoAmI = function(){
+				return this;
+			}.bind(this);
+		}
+		var ninja1 = new Ninja();
+		var ninja2 = {
+		whoAmI: ninja1.whoAmI
+		};
+		assert(ninja1.whoAmI() === ninja1, "ninja1 here?"); //pass
+		assert(ninja2.whoAmI() === ninja2, "ninja2 here?"); //fail, ninja1
 
 	</script>
 
