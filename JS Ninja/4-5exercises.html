@@ -72,7 +72,7 @@
 		assert(identify() === window, "function call : window?"); //identify calls the function as a function
 		assert(ninja1.whoAmI.call(ninja2) === ninja2, "ninja2 here?"); // fail(错) pass Using call to supply the function context this refers to ninja2
 
-		//第五题， 箭头函数的函数取决于函数定义的时候.Arrow functions don't have their own this value. Instead, they remember the value of the this parameter at the time of their definition. 
+		//第五题， 箭头函数的函数取决于函数定义的时候。《=不准确，应该是函数创建的时候.Arrow functions don't have their own this value. Instead, they remember the value of the this parameter at the time of their definition. 
 
 		function Ninja(){
 			this.whoAmI = () => this;
@@ -84,25 +84,31 @@
 		
 		//pass: whoAmI is an arrow function inherits the function context
 		//from the context in which it was created.
-		//Because it was created during the construction of ninja1
-		//this will always point to ninja1
+		//Because it was created during the construction of ninja1  用ninja1的构造函数创建的
+		//this will always point to ninja1 永远都是ninja1
 		assert(ninja1.whoAmI() === ninja1, "arrow: ninja1 here?");
 		assert(ninja2.whoAmI() === ninja2, "arrow: ninja2 here?"); //fail, === ninja1
 		assert(ninja2.whoAmI() === window, "arrow: ?"); 
 		assert(ninja2.whoAmI() === ninja1, "arrow: ninja2.whoAmI() === ninja1"); 
 
 		//第六题
+		//pass: the function assigned to whoAmI is a function bound to ninja1 (the value of this when the constructor was invoked)
+		//this will always refer to ninja1
 		function Ninja(){
 			this.whoAmI = function(){
 				return this;
 			}.bind(this);
 		}
 		var ninja1 = new Ninja();
+		// var ninja2 = {
+		// whoAmI: ninja1.whoAmI
+		// };
+
 		var ninja2 = {
-		whoAmI: ninja1.whoAmI
+		whoAmI: ninja2.whoAmI
 		};
 		assert(ninja1.whoAmI() === ninja1, "ninja1 here?"); //pass
-		assert(ninja2.whoAmI() === ninja2, "ninja2 here?"); //fail, ninja1
+		assert(ninja2.whoAmI() === ninja2, "ninja2 here?"); //fail, ninja1  ??? 啥情况
 
 	</script>
 
