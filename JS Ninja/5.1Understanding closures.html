@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<ul id="results"></ul>
+	<ul id="first"></ul>
+
+	<button id="test">Click Me!</button>
+	<button id="test2">Click M2e!</button>
+	<script type="text/javascript">
+
+	function assert(value, desc) {
+		var li = document.createElement("li");
+		li.className = value ? "pass" : "fail";
+		li.appendChild(document.createTextNode(desc));
+		document.getElementById("results").appendChild(li);
+	}
+
+	var outerValue = "samurai";
+	var later;
+
+	function outerFunction() {
+		var innerValue = "ninja";
+		
+		function innerFunction(){
+			assert(outerValue === "samurai", "I can see the samurai.");
+			assert(innerValue === "ninja", "I can see the ninja");
+		}
+
+		later = innerFunction;
+	}
+
+	outerFunction();
+
+	later();
+
+	
+
+	</script>
+
+	<style type="text/css">
+		#first {
+			color: #42e042;
+		}
+
+		#second {
+			color: red;
+		}
+
+		#results li.pass {color: green;}
+		#results li.fail {color: red;}
+	</style>
+</body>
+</html>
