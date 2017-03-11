@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<ul id="results"></ul>
+	<ul id="first"></ul>
+
+	<button id="test">Click Me!</button>
+	<button id="test2">Click M2e!</button>
+	<script type="text/javascript">
+	// "use strict";
+		function assert(value, desc) {
+			var li = document.createElement("li");
+			li.className = value ? "pass" : "fail";
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById("results").appendChild(li);
+		}
+
+		function MyButton(){
+			console.log(this); //this == myButton
+			this.clicked = false;
+			this.click = () => {
+				console.log(this); //this == myButton
+				this.clicked = true;
+				assert(button.clicked, "The button has been clicked");
+			}
+		}
+		var button = new MyButton();
+		var elem = document.getElementById("test");
+		elem.addEventListener("click", button.click);
+
+		assert(this === window, "this === window");
+		var button2 = {
+			clicked: false,
+			click: () => {
+				this.clicked = true;
+				assert(button.clicked,"The button has been clicked");
+				assert(this === window, "In arrow function this === window");
+				assert(window.clicked, "clicked is stored in window");
+			}
+		}
+
+		var elem2 = document.getElementById("test2");
+		elem2.addEventListener("click", button2.clicked);
+
+		elem.addEventListener("click", button.click.bind(button));
+		var boundFunction = button.click.bind(button);
+		assert(boundFunction != button.click, "Calling bind creates a completly new function");
+
+
+	</script>
+
+	<style type="text/css">
+		#first {
+			color: #42e042;
+		}
+
+		#second {
+			color: red;
+		}
+
+		#results li.pass {color: green;}
+		#results li.fail {color: red;}
+	</style>
+</body>
+</html>
